@@ -1,3 +1,11 @@
 node_modules
 dist
 *.env
+
+# Ignore test files and folders
+tests/
+*.test.js
+*.spec.js
+
+*.jest.config.js
+*babel.config.cjs
