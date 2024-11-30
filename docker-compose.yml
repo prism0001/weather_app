@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+
+  mongo:
+    image: mongo:7.0.12
+    ports:
+      - 27017:27017 #to delete in production
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - mern-app
+
+  web:
+    build: .
+    ports: 
+      - "5173:5173"  # Frontend (Vite) port
+      - "5000:5000"  # Backend (Node.js/Express) port
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    env_file:
+      - ./.env
+    networks:
+      - mern-app
+    depends_on:
+      - mongo
+
+volumes:
+  mongo_data:
+networks:
+  mern-app:
+    driver: bridge
